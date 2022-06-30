@@ -1,0 +1,26 @@
+<footer id="footer">
+    <div class="container">
+        <h3>{{ about_me.Full_Name }}</h3>
+        <p>{{ about_me.Short_About_Me }}</p>
+        <div class="social-links">
+            {% if about_me.Instagram %}
+                <a href="{{ about_me.Instagram }}"><i class="bx bxl-instagram"></i></a>
+            {% endif %}
+            {% if about_me.GitHub %}
+                <a href="{{ about_me.GitHub }}"><i class="bx bxl-github"></i></a>
+            {% endif %}
+            {% if about_me.Linkedin %}
+                <a href="{{ about_me.Linkedin }}"><i class="bx bxl-linkedin"></i></a>
+            {% endif %}
+        </div>
+        <div class="copyright">
+            &copy; Copyright
+            <strong>
+                <span>
+                {% if about_me.first_name %}{{ about_me.first_name }}{% else %}
+                    Iran {% endif %}
+                </span>
+            </strong>. All Rights Reserved
+        </div>
+    </div>
+</footer><!-- End Footer -->

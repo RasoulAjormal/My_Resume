@@ -1,0 +1,408 @@
+{% load thumbnail %}
+<main id="main">
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+        <div class="container" data-aos="fade-up">
+            <div class="section-title">
+                <h2>About</h2>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    {% thumbnail about_me.Image '416x416' crop='center' quality=100 as im %}
+                        <img src="{{ im.url }}" class="img-fluid img-thumbnail" alt="this is my image">
+                    {% endthumbnail %}
+                </div>
+                <div class="col-lg-8 pt-4 pt-lg-0 content">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul>
+                                {% if about_me.Date_Of_Birth %}
+                                    <li><i class="bi bi-chevron-right"></i> <strong>Birthday:</strong>
+                                        <span>{{ about_me.Date_Of_Birth }}</span></li>
+                                {% endif %}
+                                <li><i class="bi bi-chevron-right"></i> <strong>Website:</strong>
+                                    <a href="{{ about_me.Web_Site }}"><span>{{ about_me.Web_Site }}</span></li>
+                                </a>
+                                <li><i class="bi bi-chevron-right"></i> <strong>Phone:</strong>
+                                    <span>{{ about_me.Phone }}</span></li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>City:</strong>
+                                    <span>{{ about_me.Address }}</span></li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-6">
+                            <ul>
+                                {% if about_me.Age %}
+                                    <li><i class="bi bi-chevron-right"></i> <strong>Age:</strong>
+                                        <span>{{ about_me.Age }}</span></li>
+                                {% endif %}
+                                {% if about_me.Degree %}
+                                    <li><i class="bi bi-chevron-right"></i> <strong>Degree:</strong>
+                                        <span>{{ about_me.Degree }}</span></li>
+                                {% endif %}
+                                {% if about_me.email %}
+                                    <li><i class="bi bi-chevron-right"></i> <strong>EmailAddress:</strong>
+                                        <span>{{ about_me.email }}</span>
+                                    </li>
+                                {% endif %}
+                                {% if about_me.Freelance %}
+                                    <li><i class="bi bi-chevron-right"></i> <strong>Freelance:</strong>
+                                        <span>{{ about_me.Freelance }}</span></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    <br>
+                    <p>{{ about_me.About_Me }}</p>
+                </div>
+            </div>
+
+        </div>
+    </section><!-- End About Section -->
+
+    <!-- ======= Resume Section ======= -->
+    <section id="resume" class="resume">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-title">
+                <h2>Resume</h2>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <h3 class="resume-title">Sumary</h3>
+                    <div class="resume-item pb-0">
+                        <h4>{{ about_me.get_full_name }}</h4>
+                        <ul>
+                            <li>{{ about_me.About_Me }}</li>
+                            <li>{{ about_me.Phone }}</li>
+                            <li>{{ about_me.email }}</li>
+                        </ul>
+                    </div>
+
+                    {% if about_me.education_set.all %}
+                        <h3 class="resume-title">Education</h3>
+                        {% for Eduction in about_me.education_set.all %}
+                            <div class="resume-item">
+                                <h4>{{ Eduction.Educational_Degree }} &amp; {{ Eduction.Majors }}</h4>
+                                <h5>{{ Eduction.CreateTime }}</h5>
+                                <p><em>{{ Eduction.Address }}</em></p>
+                                <p>{{ Eduction.Comment }}</p>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                </div>
+                <div class="col-lg-6">
+                    <h3 class="resume-title">Professional Experience</h3>
+                    {% for Experience in about_me.experiences_set.all %}
+                        <div class="resume-item">
+                            <h4>{{ Experience.Work }}</h4>
+                            <h5>{{ Experience.Date }}</h5>
+                            <p><em>{{ Experience.Company_Name }} </em></p>
+                            <ul>
+                                {% for Comman in Experience.description_set.all %}
+                                    <li>
+                                        {{ Comman.Description }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </section><!-- End Resume Section -->
+    <!-- ======= Skills Section ======= -->
+
+    <section id="skills" class="skills section-bg">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-title">
+                <h2>Skills</h2>
+            </div>
+            <div class="row skills-content">
+                {% for skill in about_me.skill_set.all %}
+                    {% if skill.Is_Active %}
+                        <div class="col-lg-6">
+                            <div class="progress">
+                                <span class="skill">{{ skill.Title }} <i class="val">{{ skill.Percentage }}%</i></span>
+                                <div class="progress-bar-wrap">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ skill.Percentage }}"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+        </div>
+    </section><!-- End Skills Section -->
+
+    <!-- ======= Certificates Section ======= -->
+    <section id="certificates" class="certificates section-bg">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-title">
+                <h2>certificates</h2>
+            </div>
+
+            <div class="row" dir="rtl">
+                <div class="col-lg-12 d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
+                    <ul id="certificates-flters">
+                        {% for category in certificate_categories.all %}
+
+                            <li data-filter=".filter-{{ category.id }}"
+                                class="">{{ category.Title }}</li>
+                        {% endfor %}
+                        {% if certificate_categories.all.count > 1 %}
+                            <li data-filter="*" class="filter-active">All</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row certificates-container" data-aos="fade-up" data-aos-delay="200">
+                {% for certificate in certificates.all %}
+
+                    <div class="col-lg-4 col-md-6 certificates-item filter-{{ certificate.CertificateCategory.id }}">
+                        <div class="certificates-wrap">
+                            {% thumbnail certificate.Image '1920x1080' crop='center' quality=100 as im %}
+                                <img src="{{ im.url }}" class="img-fluid" alt="">
+                            {% endthumbnail %}
+                            <div class="certificates-info">
+                                <h4>{{ certificate.Title }}</h4>
+                                <p>{{ certificate.I_Do }}</p>
+                                <div class="certificates-links">
+                                    <a href="{{ certificate.Image.url }}"
+                                       data-gallery="certificateGallery"
+                                       class="certificates-lightbox">
+                                        <i
+                                                class="bx bx-plus">
+                                        </i>
+                                    </a>
+                                    <a href="
+                                            {% if certificate.Url %}{{ certificate.Url }}{% else %}#certificates{% endif %}"
+                                       class="site">
+                                        <i class="bx bx-link"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section><!-- End Certificate Section -->
+
+    <!-- ======= Portfolio Section ======= -->
+    <section id="portfolio" class="portfolio section-bg">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-title">
+                <h2>Portfolio</h2>
+            </div>
+
+            <div class="row" dir="rtl">
+                <div class="col-lg-12 d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
+                    <ul id="portfolio-flters">
+                        {% for category in work_sample_categories.all %}
+                            <li data-filter=".filter-{{ category.id }}"
+                                class="">{{ category.Title }}</li>
+                        {% endfor %}
+                        {% if certificate_categories.all.count > 1 %}
+                            <li data-filter="*" class="filter-active">All</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+                {% for work_sample in work_samples.all %}
+                    <div class="col-lg-4 col-md-6 portfolio-item filter-{{ work_sample.Category.id }}">
+                        <div class="portfolio-wrap">
+                            {% thumbnail work_sample.Image '1920x1080' crop='center' quality=100 as im %}
+                                <img src="{{ im.url }}" class="img-fluid" alt="">
+                            {% endthumbnail %}
+                            <div class="portfolio-info">
+                                <h4>{{ work_sample.Category }}</h4>
+                                <p>{{ work_sample.I_Do }}</p>
+                                <div class="portfolio-links">
+                                    <a href="{{ work_sample.Image.url }}"
+                                       data-gallery="portfolioGallery"
+                                       class="portfolio-lightbox">
+                                        <i
+                                                class="bx bx-plus">
+                                        </i>
+                                    </a>
+                                    <a href="{% url 'Portfolio' portfolio_id=work_sample.id %}"
+                                       class=""
+                                       data-glightbox="type: external" title="Portfolio Details"><i
+                                            class="bx bx-link"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section><!-- End Portfolio Section -->
+
+    <!-- ======= Facts Section ======= -->
+    <section id="facts" class="facts">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-title">
+                <h2>Facts</h2>
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="count-box">
+                        <i class="bi bi-emoji-smile"></i>
+                        <span data-purecounter-start="0" data-purecounter-end="{{ about_me.HappyClients }}"
+                              data-purecounter-duration="1"
+                              class="purecounter"></span>
+                        <p>Happy Clients</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 mt-5 mt-md-0">
+                    <div class="count-box">
+                        <i class="bi bi-journal-richtext"></i>
+                        <span data-purecounter-start="0" data-purecounter-end="{{ about_me.Projects }}"
+                              data-purecounter-duration="1"
+                              class="purecounter"></span>
+                        <p>Projects</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
+                    <div class="count-box">
+                        <i class="bi bi-headset"></i>
+                        <span data-purecounter-start="0" data-purecounter-end="{{ about_me.HoursOfSupport }}"
+                              data-purecounter-duration="1"
+                              class="purecounter"></span>
+                        <p>Hours Of Support</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
+                    <div class="count-box">
+                        <i class="bi bi-award"></i>
+                        <span data-purecounter-start="0" data-purecounter-end="{{ about_me.Awards }}"
+                              data-purecounter-duration="1"
+                              class="purecounter"></span>
+                        <p>Awards</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section><!-- End Facts Section -->
+
+    <!-- ======= Testimonials Section ======= -->
+    <section id="testimonials" class="testimonials section-bg">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-title">
+                <h2>Testimonials</h2>
+            </div>
+
+            <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
+                <div class="swiper-wrapper">
+                    {% for comment in about_me.commentsofothersmodel_set.all %}
+                        <div class="swiper-slide">
+                            <div class="testimonial-item">
+                                <img src="{{ comment.Image.url }}" class="testimonial-img" alt="">
+                                <h3>{{ comment.FullName }}</h3>
+                                <h4>{{ comment.Job }}</h4>
+                                <p>
+                                    <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                    {{ comment.Comments }}
+                                    <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                                </p>
+                            </div>
+                        </div><!-- End testimonial item -->
+                    {% endfor %}
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+
+        </div>
+    </section><!-- End Testimonials Section -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-title">
+                <h2>Contact</h2>
+            </div>
+
+            <div class="row mt-1">
+
+                <div class="col-lg-4">
+                    <div class="info">
+                        <div class="address">
+                            <i class="bi bi-geo-alt"></i>
+                            <h4>Location:</h4>
+                            <p>{{ about_me.Address }}</p>
+                        </div>
+
+                        <div class="email">
+                            <i class="bi bi-envelope"></i>
+                            <h4>Email:</h4>
+                            <p>{{ about_me.email }}</p>
+                        </div>
+
+                        <div class="phone">
+                            <i class="bi bi-phone"></i>
+                            <h4>Call:</h4>
+                            <p>{{ about_me.Phone }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 mt-5 mt-lg-0">
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <input type="text" class="form-control" id="nameId" placeholder="Your Name"
+                                   required>
+                        </div>
+                        <div class="col-md-6 form-group mt-3 mt-md-0">
+                            <input type="email" class="form-control" id="emailId"
+                                   placeholder="Your Email" required>
+                        </div>
+                    </div>
+                    <div class="form-group mt-3">
+                        <input type="text" class="form-control" id="subjectId" placeholder="Subject"
+                               required>
+                    </div>
+                    <div class="form-group mt-3">
+                            <textarea class="form-control" name="message" rows="5" id="messageId" placeholder="Message"
+                                      required></textarea>
+                    </div>
+                    <br>
+                    <div class="my-3">
+                        <div class="" id="resultId"></div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary rounded-pill ps-4 pe-4" onclick="SendMessage()">
+                            Send
+                            Message
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section><!-- End Contact Section -->
+
+</main>
+

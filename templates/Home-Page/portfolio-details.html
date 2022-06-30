@@ -1,0 +1,58 @@
+<!-- ======= Portfolio Details Section ======= -->
+{% include 'Home-Page/Head.html' %}
+<section id="portfolio-details" class="portfolio-details">
+    <div class="container">
+
+        <div class="row gy-4">
+
+            <div class="col-lg-8">
+                <div class="portfolio-details-slider swiper">
+                    <div class="swiper-wrapper align-items-center">
+                        {% for gallery in galleries %}
+                            <div class="swiper-slide">
+                                <img src="{{ gallery.Image.url }}" alt="">
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="portfolio-info">
+                    <h3>Project Information</h3>
+                    <ul>
+                        {% if work_sample.Category %}
+                            <li><strong>Category</strong>: {{ work_sample.Category }}</li>
+                        {% endif %}
+                        {% if work_sample.Company %}
+                            <li><strong>Company</strong>: {{ work_sample.Company }}</li>
+                        {% endif %}
+                        {% if work_sample.Client %}
+                            <li><strong>Client</strong>: {{ work_sample.Client }}</li>
+                        {% endif %}
+                        {% if work_sample.Date %}
+                            <li><strong>Date</strong>: {{ work_sample.Date }}</li>
+                        {% endif %}
+                        {% if work_sample.Link %}
+                            <li><strong>Project URL</strong>: <a
+                                    href="{{ work_sample.Link }}">{{ work_sample.Link }}</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="portfolio-description">
+                    <h2>Descriptions</h2>
+                    <p>
+                        {{ work_sample.Description }}
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- End Portfolio Details Section -->
+{% include 'Home-Page/Script.html' %}

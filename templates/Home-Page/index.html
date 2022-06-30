@@ -1,0 +1,52 @@
+{% load thumbnail %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include 'Home-Page/Head.html' %}
+</head>
+
+<body>
+
+<!-- ======= Mobile nav toggle button ======= -->
+<!-- <button type="button" class="mobile-nav-toggle d-xl-none"><i class="bi bi-list mobile-nav-toggle"></i></button> -->
+<i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+
+<!-- ======= Header ======= -->
+{% include 'Home-Page/Header.html' %}
+
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="d-flex flex-column justify-content-center">
+    <div class="container" data-aos="zoom-in" data-aos-delay="100">
+        <h1>{{ about_me.get_full_name }}</h1>
+        <p><span class="typed" data-typed-items="
+        {% for Job_Title in about_me.jobtitles_set.all %} {{ Job_Title.Title }} , {% endfor %}"></span></p>
+        <div class="social-links">
+            {% if about_me.Instagram %}
+                <a href="{{ about_me.Instagram }}" target="_blank"><i class="bx bxl-instagram"></i></a>
+            {% endif %}
+            {% if about_me.GitHub %}
+                <a href="{{ about_me.GitHub }}" target="_blank"><i class="bx bxl-github"></i></a>
+            {% endif %}
+            {% if about_me.Linkedin %}
+                <a href="{{ about_me.Linkedin }}" target="_blank"><i class="bx bxl-linkedin"></i></a>
+            {% endif %}
+        </div>
+    </div>
+</section><!-- End Hero -->
+
+{% include 'Home-Page/Main.html' %}
+<!-- End #main -->
+
+<!-- ======= Footer ======= -->
+{% include 'Home-Page/Footer.html' %}
+
+<div id="preloader"></div>
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+
+{% include 'Home-Page/Script.html' %}
+
+</body>
+</html>
